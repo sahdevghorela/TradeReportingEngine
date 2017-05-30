@@ -16,4 +16,14 @@ public interface TradeReportService {
 
     void add(Trade trade);
 
+    default void validateFlow(TradeFlow tradeFlow) {
+        if (tradeFlow == null) {
+            throw new InvalidTradeFlowException();
+        }
+    }
+
+    static class InvalidTradeFlowException extends RuntimeException{
+
+    }
+
 }

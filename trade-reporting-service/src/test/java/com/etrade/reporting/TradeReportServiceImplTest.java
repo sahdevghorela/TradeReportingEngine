@@ -25,6 +25,16 @@ public class TradeReportServiceImplTest {
         reportService = new TradeReportServiceImpl(new SettlementDateServiceImpl());
     }
 
+    @Test(expected = TradeReportService.InvalidTradeFlowException.class)
+    public void invalidTradeFlowForSettledUSDAmount() throws TradeReportService.InvalidTradeFlowException{
+        reportService.settledUSDAmountByDate(null);
+    }
+
+    @Test(expected = TradeReportService.InvalidTradeFlowException.class)
+    public void invalidTradeFlowForEntityRankings() throws TradeReportService.InvalidTradeFlowException{
+        reportService.getEntityRankings(null);
+    }
+
     @Test
     public void incomingUSDAmountForNoTradeIsZero() {
         Map<LocalDate, BigDecimal> incomingAmount = reportService.settledUSDAmountByDate(TradeFlow.INCOMING);

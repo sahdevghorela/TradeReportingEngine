@@ -35,13 +35,15 @@ public class TradeReportServiceImpl implements TradeReportService {
 
     @Override
     public Map<LocalDate, BigDecimal> settledUSDAmountByDate(final TradeFlow tradeFlow) {
+        validateFlow(tradeFlow);
         return groupAndSumUpTrades(tradeFlow, getSettlementDate());
     }
 
     @Override
     public List<String> getEntityRankings(TradeFlow tradeFlow) {
-        Map<String, BigDecimal> rankingMap = groupAndSumUpTrades(tradeFlow, getEntity());
-        return rankingMap.entrySet().stream()
+        validateFlow(tradeFlow);
+        return groupAndSumUpTrades(tradeFlow, getEntity())
+                .entrySet().stream()
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
