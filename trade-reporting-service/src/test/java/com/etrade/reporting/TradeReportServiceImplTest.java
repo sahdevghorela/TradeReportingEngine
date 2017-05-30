@@ -139,7 +139,7 @@ public class TradeReportServiceImplTest {
         Arrays.stream(trades).forEach(trade -> reportService.add(trade));
     }
 
-    private Trade getTrade(String entity, LocalDate settlementDate, Transaction transaction, Currency currency, BigDecimal usdExchangeRate) {
+    private static Trade getTrade(String entity, LocalDate settlementDate, Transaction transaction, Currency currency, BigDecimal usdExchangeRate) {
         Trade trade = new Trade();
         trade.setEntity(entity);
         trade.setTransaction(transaction);
