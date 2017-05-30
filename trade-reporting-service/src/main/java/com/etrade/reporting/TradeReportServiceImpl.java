@@ -35,12 +35,12 @@ public class TradeReportServiceImpl implements TradeReportService {
 
     @Override
     public Map<LocalDate, BigDecimal> settledUSDAmountByDate(final TradeFlow tradeFlow) {
-        return test(tradeFlow, getSettlementDate());
+        return groupAndSumUpTrades(tradeFlow, getSettlementDate());
     }
 
     @Override
-    public List<String> prepareEntityRanking(TradeFlow tradeFlow) {
-        Map<String, BigDecimal> rankingMap = test(tradeFlow, getEntity());
+    public List<String> getEntityRankings(TradeFlow tradeFlow) {
+        Map<String, BigDecimal> rankingMap = groupAndSumUpTrades(tradeFlow, getEntity());
         return rankingMap.entrySet().stream()
                 .sorted((e1, e2) -> e2.getValue().compareTo(e1.getValue()))
                 .map(Map.Entry::getKey)
@@ -53,12 +53,12 @@ public class TradeReportServiceImpl implements TradeReportService {
         trades.add(trade);
     }
 
-    private <R> Map<R, BigDecimal> test(TradeFlow tradeFlow, Function<Trade, R> function) {
+    private <R> Map<R, BigDecimal> groupAndSumUpTrades(TradeFlow tradeFlow, Function<Trade, R> groupByFunction) {
         return trades.stream()
                 .filter(trade -> FILTER_BY_TRADE_FLOW.test(tradeFlow, trade.getTransaction()))
                 .collect(
                         Collectors.groupingBy(
-                                function, Collectors.mapping(
+                                groupByFunction, Collectors.mapping(
                                         Trade::getUsdSettledAmount, Collectors.reducing(BigDecimal.ZERO, BigDecimal::add))));
     }
 

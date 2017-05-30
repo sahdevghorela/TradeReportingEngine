@@ -85,8 +85,8 @@ public class TradeReportServiceImplTest {
 
     @Test
     public void entityRankingWithNoTrades() {
-        List<String> incomingRankings = reportService.prepareEntityRanking(TradeFlow.INCOMING);
-        List<String> outgoingRankings = reportService.prepareEntityRanking(TradeFlow.OUTGOING);
+        List<String> incomingRankings = reportService.getEntityRankings(TradeFlow.INCOMING);
+        List<String> outgoingRankings = reportService.getEntityRankings(TradeFlow.OUTGOING);
         assertEquals(0, incomingRankings.size());
         assertEquals(0, outgoingRankings.size());
     }
@@ -100,7 +100,7 @@ public class TradeReportServiceImplTest {
                 getTrade("foo", LocalDate.parse("2017-06-03"), Transaction.SELL, Currency.SAR, BigDecimal.TEN)
         );
 
-        List<String> incomingRankings = reportService.prepareEntityRanking(TradeFlow.INCOMING);
+        List<String> incomingRankings = reportService.getEntityRankings(TradeFlow.INCOMING);
         assertEquals(2, incomingRankings.size());
         assertEquals("foo", incomingRankings.get(0));
         assertEquals("bar", incomingRankings.get(1));
@@ -116,7 +116,7 @@ public class TradeReportServiceImplTest {
                 getTrade("ipsum", LocalDate.parse("2017-06-03"), Transaction.BUY, Currency.SAR, new BigDecimal("11.04"))
         );
 
-        List<String> incomingRankings = reportService.prepareEntityRanking(TradeFlow.OUTGOING);
+        List<String> incomingRankings = reportService.getEntityRankings(TradeFlow.OUTGOING);
         assertEquals(4, incomingRankings.size());
         assertEquals("loream", incomingRankings.get(0));
         assertEquals("foo", incomingRankings.get(1));

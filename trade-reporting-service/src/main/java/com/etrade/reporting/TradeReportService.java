@@ -12,7 +12,7 @@ public interface TradeReportService {
 
     Map<LocalDate, BigDecimal> settledUSDAmountByDate(TradeFlow tradeFlow);
 
-    List<String> prepareEntityRanking(TradeFlow tradeFlow);
+    List<String> getEntityRankings(TradeFlow tradeFlow);
 
     void add(Trade trade);
 
